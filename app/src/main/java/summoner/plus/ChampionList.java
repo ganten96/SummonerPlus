@@ -1,8 +1,12 @@
 package summoner.plus;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,19 +21,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 
 public class ChampionList extends ActionBarActivity
 {
+    private boolean isLoggedIn;
+    private ArrayList<Champion> champions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_list);
+        Intent intent = getIntent();
+        isLoggedIn = intent.getBooleanExtra("isLoggedIn", isLoggedIn);
+        champions = new ArrayList<>();
         new DownloadAllChampData().execute();
+        if(isLoggedIn)
+        {
+            //do logged in stuff
+        }
+        else
+        {
+            Log.v("Champions Filled", champions.size() + "");
+        }
     }
 
     private class DownloadAllChampData extends AsyncTask<String, Void, ArrayList<Champion>>
@@ -38,13 +56,23 @@ public class ChampionList extends ActionBarActivity
         protected ArrayList<Champion> doInBackground(String... urls)
         {
             String data =  getAllChampions();
-            ArrayList<Champion> champions = processChampionData(data);
-            return champions;
+
+            return processChampionData(data);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Champion> result)
+        {
+            champions = result;
+            ChampionGridFragment frag = populateChampionList(champions);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.championListParent, frag);
+            ft.commit();
         }
 
         private ArrayList<Champion> processChampionData(String obj)
         {
-            ArrayList<Champion> champs = new ArrayList<Champion>();
+            ArrayList<Champion> champs = new ArrayList<>();
             if(obj != null)
             {
                 try
@@ -76,7 +104,7 @@ public class ChampionList extends ActionBarActivity
         private String getAllChampions()
         {
             String data = "";
-            String url = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=<KEY>";
+            String url = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=";
             HttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(url);
             HttpResponse response;
@@ -100,6 +128,16 @@ public class ChampionList extends ActionBarActivity
             }
             return "Failed";
         }
+    }
+
+    private ChampionGridFragment populateChampionList(ArrayList<Champion> champs)
+    {
+        Bundle bundle = new Bundle();
+        ChampionGridFragment fragment = new ChampionGridFragment();
+        bundle.putSerializable("Champions", champs);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override

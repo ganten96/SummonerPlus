@@ -1,10 +1,12 @@
 package summoner.plus;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,7 +30,7 @@ import java.util.List;
 
 public class LoginActivity extends ActionBarActivity
 {
-
+    private boolean isLoggedIn;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -36,16 +38,13 @@ public class LoginActivity extends ActionBarActivity
         setContentView(R.layout.activity_login);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    public void onContinueClick(View v)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
+        Intent continueIntent = new Intent(this, ChampionList.class);
+        isLoggedIn = false;
+        continueIntent.putExtra("isLoggedIn", isLoggedIn);
+        startActivity(continueIntent);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

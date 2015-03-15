@@ -2,12 +2,14 @@ package summoner.plus;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Nick on 3/15/2015.
  */
-public class Champion
+public class Champion implements Serializable
 {
-    public String champtionName;
+    public String championName;
     public int id;
     public String title;
     public String key;
@@ -15,7 +17,7 @@ public class Champion
     public Champion(String name, int id, String title,
                     String key)
     {
-        champtionName = name;
+        this.championName = name;
         this.id = id;
         this.title = title;
         this.key = key;
