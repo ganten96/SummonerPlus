@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Summoner+</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="riot_api_key">45b0aaba-6561-4bfd-b391-84020a013a7b</string>
+    <string name="title_activity_champion_list">ChampionList</string>
+
+    <string name="hello_world">Hello world!</string>
+</resources>
