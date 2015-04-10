@@ -15,6 +15,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -63,6 +64,7 @@ public class ChampionList extends ActionBarActivity
         @Override
         protected void onPostExecute(ArrayList<Champion> result)
         {
+
             champions = result;
             ChampionGridFragment frag = populateChampionList(champions);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -77,10 +79,18 @@ public class ChampionList extends ActionBarActivity
             {
                 try
                 {
-                    JSONObject champData = new JSONObject(obj);
-                    JSONObject dataObj = champData.getJSONObject("data");
-                    Iterator<String> keys = dataObj.keys();
-                    while(keys.hasNext())
+                    JSONArray champData = new JSONArray(obj);
+                    for(int i = 0; i < champData.length(); i++)
+                    {
+                        JSONObject currChampJson = champData.getJSONObject(i);
+                        String name = currChampJson.getString("Name");
+                        String title = currChampJson.getString("Title");
+                        Integer id = currChampJson.getInt("Id");
+                        String key = currChampJson.getString("Key");
+                        Champion currentChamp = new Champion(name,id,title,key);
+                        champs.add(currentChamp);
+                    }
+                    /*while(keys.hasNext())
                     {
                         String item = keys.next();
                         JSONObject currChampJson = (JSONObject)dataObj.get(item);
@@ -90,7 +100,7 @@ public class ChampionList extends ActionBarActivity
                         String key = currChampJson.getString("key");
                         Champion currentChamp = new Champion(name,id,title,key);
                         champs.add(currentChamp);
-                    }
+                    }*/
                 }
                 catch(Exception e)
                 {
@@ -104,7 +114,7 @@ public class ChampionList extends ActionBarActivity
         private String getAllChampions()
         {
             String data = "";
-            String url = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?api_key=";
+            String url = "http://ganter.azurewebsites.net/api/RiotApi";
             HttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(url);
             HttpResponse response;
