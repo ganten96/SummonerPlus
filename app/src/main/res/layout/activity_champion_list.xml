@@ -1,3 +1,8 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/appNav"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -15,3 +20,13 @@
         android:layout_height="wrap_content"/>
 
 </RelativeLayout>
+    <ListView
+        android:id="@+id/list_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="#A9A9A9"
+        android:dividerHeight="0dp"
+        android:background="#ff233f52"/>
+</android.support.v4.widget.DrawerLayout>

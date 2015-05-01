@@ -4,11 +4,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -22,33 +25,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class ChampionList extends ActionBarActivity
 {
     private boolean isLoggedIn;
     private ArrayList<Champion> champions;
-
+    private User currentUser;
+    private String[] navTitles;
+    private DrawerLayout navDrawer;
+    private ListView navDrawerList;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_list);
+        navTitles = new String[]{"Champions", "Item Builds", "My Games", "Settings"};
+        navDrawer = (DrawerLayout) findViewById(R.id.appNav);
+        navDrawerList = (ListView) findViewById(R.id.list_drawer);
+
+        navDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.nav_item_list, navTitles));
         Intent intent = getIntent();
+        currentUser = (User) intent.getExtras().getSerializable("User");
         isLoggedIn = intent.getBooleanExtra("isLoggedIn", isLoggedIn);
         champions = new ArrayList<>();
         new DownloadAllChampData().execute();
-        if(isLoggedIn)
-        {
-            //do logged in stuff
-        }
-        else
-        {
             Log.v("Champions Filled", champions.size() + "");
-        }
     }
 
     private class DownloadAllChampData extends AsyncTask<String, Void, ArrayList<Champion>>
@@ -90,17 +93,6 @@ public class ChampionList extends ActionBarActivity
                         Champion currentChamp = new Champion(name,id,title,key);
                         champs.add(currentChamp);
                     }
-                    /*while(keys.hasNext())
-                    {
-                        String item = keys.next();
-                        JSONObject currChampJson = (JSONObject)dataObj.get(item);
-                        String name = currChampJson.getString("name");
-                        String title = currChampJson.getString("title");
-                        Integer id = currChampJson.getInt("id");
-                        String key = currChampJson.getString("key");
-                        Champion currentChamp = new Champion(name,id,title,key);
-                        champs.add(currentChamp);
-                    }*/
                 }
                 catch(Exception e)
                 {

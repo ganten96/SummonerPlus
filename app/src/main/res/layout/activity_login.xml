@@ -16,11 +16,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/summonerName"
         android:id="@+id/summonerName"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="166dp"
         android:textColor="#ffffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/summonerNameInput"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -31,9 +29,8 @@
         android:enabled="true"
         android:textColor="#ffffffff"
         android:textColorHint="#ffffffff"
-        android:layout_marginLeft="21dp"
-        android:layout_below="@+id/summonerName"
-        android:layout_alignParentEnd="true"/>
+        android:layout_above="@+id/password"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,9 +39,8 @@
         android:text="@string/passwordField"
         android:id="@+id/password"
         android:textColor="#ffffffff"
-        android:layout_below="@+id/summonerNameInput"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="21dp"/>
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/passwordInput"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -56,8 +52,7 @@
         android:password="true"
         android:textColor="#ffffffff"
         android:textColorHint="#ffffffff"
-        android:layout_marginLeft="21dp"
-        android:layout_below="@+id/password"
+        android:layout_above="@+id/LogInButton"
         android:layout_alignParentStart="true"/>
 
     <Button
@@ -65,31 +60,20 @@
         android:layout_height="wrap_content"
         android:text="Log In"
         android:id="@+id/LogInButton"
-        android:layout_below="@+id/passwordInput"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="26dp"
         android:typeface="normal"
-        android:layout_toEndOf="@+id/summonerName"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/dontHaveOne"
-        android:id="@+id/dontHave"
-        android:textColor="#ffffffff"
-        android:layout_marginBottom="25dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/summonerName"/>
+        android:layout_above="@+id/registerButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/registerButton"
+        android:onClick="LogIn"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Continue"
-        android:id="@+id/button"
-        android:layout_alignTop="@+id/dontHave"
-        android:layout_toEndOf="@+id/dontHave"
-        android:layout_marginStart="27dp"
-        android:onClick="onContinueClick"/>
+        android:text="Register"
+        android:id="@+id/registerButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentEnd="true"
+        android:onClick="onRegisterClick"/>
 </RelativeLayout>

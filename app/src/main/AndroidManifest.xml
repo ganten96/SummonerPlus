@@ -27,6 +27,10 @@
             android:name=".ChampionList"
             android:label="@string/title_activity_champion_list" >
         </activity>
+        <activity
+            android:name=".Register"
+            android:label="@string/title_activity_register" >
+        </activity>
     </application>
 
 </manifest>
