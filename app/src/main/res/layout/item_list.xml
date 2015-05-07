@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#ff233f52">
 
     <ImageView
         android:id="@+id/itemPicture"
@@ -21,7 +22,8 @@
         android:layout_toRightOf="@id/itemPicture"
         android:ellipsize="marquee"
         android:singleLine="true"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="#ffffffff"/>
 
     <TextView
         android:id="@+id/itemDescription"
@@ -33,7 +35,8 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/itemPicture"
         android:gravity="center_vertical"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#ffffffff"/>
 
     <CheckBox
         android:id="@+id/isItemChecked"
