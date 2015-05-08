@@ -1,50 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ff233f52">
+                android:layout_height="wrap_content"
+                android:background="#ff233f52"
+                android:paddingBottom="2dp">
 
     <ImageView
         android:id="@+id/itemPicture"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:contentDescription="TODO" />
+        android:layout_marginRight="6dip" />
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/itemPicture"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textColor="#ffffffff"/>
 
     <TextView
         android:id="@+id/itemDescription"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/itemName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/itemPicture"
-        android:gravity="center_vertical"
-        android:textSize="16sp"
-        android:textColor="#ffffffff"/>
-
-    <CheckBox
-        android:id="@+id/isItemChecked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/itemDescription"
-        android:layout_alignParentLeft="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-         />
+        android:layout_below="@id/itemName"
+        android:layout_toRightOf="@id/itemPicture"
+        android:textSize="12sp"
+        android:textColor="#ffffffff"/>
+
+
+
+        <CheckBox
+            android:id="@+id/isItemChecked"
+            android:layout_toRightOf="@id/itemName"
+            android:focusable="false"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignRight="@id/itemName"
+            android:focusableInTouchMode="false"
+             />
 </RelativeLayout>
