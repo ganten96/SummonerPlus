@@ -1,5 +1,7 @@
 package summoner.plus;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -10,4 +12,5 @@ public class Item implements Serializable
     public int Id;
     public String Description;
     public String Name;
+    public Bitmap Picture;
 }

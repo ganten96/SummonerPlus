@@ -49,6 +49,7 @@ public class ChampionArrayAdapter extends ArrayAdapter<Champion>
         }
         TextView champName = (TextView) rowView.findViewById(R.id.championListName);
         champName.setText(name);
+        rowView.setTag(key);
         return rowView;
     }
 }

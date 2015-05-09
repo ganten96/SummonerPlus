@@ -3,6 +3,8 @@ package summoner.plus;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -25,9 +27,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -39,126 +43,50 @@ public class ChampionList extends ActionBarActivity
     private String[] navTitles;
     private DrawerLayout navDrawer;
     private ListView navDrawerList;
+    private ArrayList<Item> items;
+    public static int currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_list);
-        navTitles = new String[]{"Champions", "Items", "Item Builds", "My Games", "Settings"};
+        navTitles = new String[]{"Champions", "Item Builds", "My Games", "Settings"};
         navDrawer = (DrawerLayout) findViewById(R.id.appNav);
         navDrawerList = (ListView) findViewById(R.id.list_drawer);
-
         navDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.nav_item_list, navTitles));
         navDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         Intent intent = getIntent();
         currentUser = (User) intent.getExtras().getSerializable("User");
+        currentUserId = currentUser.getUserID();
         isLoggedIn = intent.getBooleanExtra("isLoggedIn", isLoggedIn);
+        items = new ArrayList<Item>();
         champions = new ArrayList<>();
         new DownloadAllChampData().execute();
             Log.v("Champions Filled", champions.size() + "");
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener
-    {
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-        {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectNavItem(position);
         }
-        private void selectNavItem(int position)
-        {
-            switch (position)
-            {
+
+        private void selectNavItem(int position) {
+            switch (position) {
                 case 0:
-                    //champs
+                    ChampionGridFragment frag = populateChampionList(champions);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.championListParent, frag);
+                    ft.commit();
                     break;
                 case 1:
-                    //items
-                    new DownloadItemData().execute();
+                    //item builds
+
                     break;
                 case 2:
                     break;
             }
-        }
-    }
-
-    private class DownloadItemData extends AsyncTask<String, Void, ArrayList<Item>>
-    {
-        @Override
-        protected ArrayList<Item> doInBackground(String... urls)
-        {
-            String data = getAllItems();
-            return processItemData(data);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Item> result)
-        {
-            ArrayList<Item> items = result;
-            ItemListFragment frag = populateItemList(items);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.championListParent, frag);
-            ft.commit();
-        }
-
-        private ArrayList<Item> processItemData(String data)
-        {
-            ArrayList<Item> items = new ArrayList<Item>();
-            if(data != null)
-            {
-                try
-                {
-                    JSONArray itemData = new JSONArray(data);
-                    for(int i = 0; i < itemData.length(); i++)
-                    {
-                        JSONObject currItemJson = itemData.getJSONObject(i);
-                        String name = currItemJson.getString("Name");
-                        String description = currItemJson.getString("Description");
-                        Integer id = currItemJson.getInt("Id");
-                        Item currentItem = new Item();
-                        currentItem.Id = id;
-                        currentItem.Description = description;
-                        currentItem.Name = name;
-                        items.add(currentItem);
-                    }
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                    System.out.println("Unable to map item data.");
-                }
-            }
-            return items;
-        }
-
-        private String getAllItems()
-        {
-            String data = "";
-            String url = "http://ganter.azurewebsites.net/Item/GetAllItems";
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(url);
-            HttpResponse response;
-            try
-            {
-                response = client.execute(post);
-                InputStream content = response.getEntity().getContent();
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                String s = "";
-                while ((s = buffer.readLine()) != null) {
-                    data += s;
-                }
-                return data;
-            }
-            catch (ClientProtocolException e)
-            {
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            return "Failed";
         }
     }
 
@@ -169,7 +97,6 @@ public class ChampionList extends ActionBarActivity
         protected ArrayList<Champion> doInBackground(String... urls)
         {
             String data =  getAllChampions();
-
             return processChampionData(data);
         }
 
@@ -238,16 +165,6 @@ public class ChampionList extends ActionBarActivity
             }
             return "Failed";
         }
-    }
-
-    private ItemListFragment populateItemList(ArrayList<Item> items)
-    {
-        Bundle bundle = new Bundle();
-        ItemListFragment fragment = new ItemListFragment();
-        bundle.putSerializable("Items", items);
-        fragment.setArguments(bundle);
-
-        return fragment;
     }
 
     private ChampionGridFragment populateChampionList(ArrayList<Champion> champs)

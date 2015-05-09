@@ -1,8 +1,13 @@
 package summoner.plus;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +17,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -28,7 +47,6 @@ public class ChampionGridFragment extends Fragment implements AbsListView.OnItem
 {
     private ArrayList<Champion> champs;
     private OnFragmentInteractionListener champClickListener;
-
     /**
      * The fragment's ListView/GridView.
      */
@@ -64,8 +82,24 @@ public class ChampionGridFragment extends Fragment implements AbsListView.OnItem
         // Set the adapter
         championListView = (AbsListView) view.findViewById(R.id.championList);
         championListView.setAdapter(champAdapter);
+
         // Set OnItemClickListener so we can be notified on item clicks
-        //mListView.setOnItemClickListener(this);
+        championListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                int id = (int)view.getTag();
+                ItemListFragment itemFrag = new ItemListFragment();
+                FragmentTransaction ftrans = getFragmentManager().beginTransaction();
+                Bundle b = new Bundle();
+                b.putSerializable("champId", id);
+                itemFrag.setArguments(b);
+                ftrans.replace(R.id.championListParent, itemFrag);
+                ftrans.commit();
+
+            }
+        });
         return view;
     }
 
@@ -84,12 +118,10 @@ public class ChampionGridFragment extends Fragment implements AbsListView.OnItem
     }
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
         //mListener = null;
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -100,6 +132,7 @@ public class ChampionGridFragment extends Fragment implements AbsListView.OnItem
             // fragment is attached to one) that an item has been selected.
             *//*mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);*//*
         }*/
+
     }
 
     /**

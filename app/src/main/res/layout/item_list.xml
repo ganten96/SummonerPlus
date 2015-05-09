@@ -29,15 +29,12 @@
         android:textSize="12sp"
         android:textColor="#ffffffff"/>
 
-
-
         <CheckBox
             android:id="@+id/isItemChecked"
-            android:layout_toRightOf="@id/itemName"
+            android:layout_below="@id/itemPicture"
             android:focusable="false"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_alignRight="@id/itemName"
             android:focusableInTouchMode="false"
              />
 </RelativeLayout>

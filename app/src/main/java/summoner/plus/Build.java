@@ -11,5 +11,5 @@ public class Build
     public int ChampionID;
     public int UserID;
     public String BuildName;
-    public ArrayList<Item> Items;
+    public ArrayList<Integer> ItemIDs;
 }

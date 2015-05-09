@@ -9,5 +9,21 @@
     <ListView
         android:id="@+id/item_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="450dp"/>
+
+    <EditText
+        android:layout_width="275dp"
+        android:id="@+id/buildName"
+        android:hint="Build Name"
+        android:layout_below="@id/item_list"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveItemBuild"
+        android:text="Save"
+        android:layout_alignBottom="@+id/buildName"
+        android:layout_alignEnd="@+id/item_list"
+        android:onClick="SaveItemBuild" />
 </RelativeLayout>
