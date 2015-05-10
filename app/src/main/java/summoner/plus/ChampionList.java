@@ -1,10 +1,7 @@
 package summoner.plus;
 
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -16,22 +13,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -78,6 +70,7 @@ public class ChampionList extends ActionBarActivity
                     ChampionGridFragment frag = populateChampionList(champions);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.championListParent, frag);
+                    ft.addToBackStack("");
                     ft.commit();
                     break;
                 case 1:
@@ -105,8 +98,9 @@ public class ChampionList extends ActionBarActivity
         {
             champions = result;
             ChampionGridFragment frag = populateChampionList(champions);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getFragmentManager().beginTransaction().add(frag, "ChampionGrid");
             ft.replace(R.id.championListParent, frag);
+            ft.addToBackStack("");
             ft.commit();
         }
 

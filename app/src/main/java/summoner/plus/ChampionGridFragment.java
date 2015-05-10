@@ -96,6 +96,7 @@ public class ChampionGridFragment extends Fragment implements AbsListView.OnItem
                 b.putSerializable("champId", id);
                 itemFrag.setArguments(b);
                 ftrans.replace(R.id.championListParent, itemFrag);
+                ftrans.addToBackStack("");
                 ftrans.commit();
 
             }

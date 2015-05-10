@@ -42,7 +42,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import summoner.plus.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
