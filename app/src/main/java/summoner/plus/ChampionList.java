@@ -42,7 +42,7 @@ public class ChampionList extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_champion_list);
-        navTitles = new String[]{"Champions", "Item Builds", "My Games", "Settings"};
+        navTitles = new String[]{"Champions", "Item Builds", "My Games"};
         navDrawer = (DrawerLayout) findViewById(R.id.appNav);
         navDrawerList = (ListView) findViewById(R.id.list_drawer);
         navDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.nav_item_list, navTitles));
@@ -57,15 +57,20 @@ public class ChampionList extends ActionBarActivity
             Log.v("Champions Filled", champions.size() + "");
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+    private class DrawerItemClickListener implements ListView.OnItemClickListener
+    {
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
             selectNavItem(position);
+            navDrawer.closeDrawer(navDrawerList);
         }
 
-        private void selectNavItem(int position) {
-            switch (position) {
+        private void selectNavItem(int position)
+        {
+            switch (position)
+            {
                 case 0:
                     ChampionGridFragment frag = populateChampionList(champions);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
