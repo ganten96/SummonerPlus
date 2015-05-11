@@ -16,6 +16,7 @@ public class User implements Serializable
     private String Summonername;
     private String Username;
     private byte[] Password;
+    public long SummonerID;
 
     public User(int Id, String summonerName, String userName, String pass)
     {

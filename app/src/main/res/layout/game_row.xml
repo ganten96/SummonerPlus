@@ -2,26 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="#ff233f52">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameMode"
+        android:textColor="#ffffffff"/>
+
     <TextView
         android:id="@+id/gameDate"
+        android:layout_below="@id/gameMode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#ffffffff"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gameDate"
-        android:id="@+id/winLoss"/>
+        android:id="@+id/winLoss"
+        android:textColor="#ffffffff"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/winLoss"
-        android:id="@+id/kda"
-        />
+        android:id="@+id/deaths"
+        android:textColor="#ffffffff"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/winLoss"
-        android:id="@+id/goldEarned"/>
+        android:layout_below="@id/deaths"
+        android:id="@+id/goldEarned"
+        android:textColor="#ffffffff"/>
 </RelativeLayout>

@@ -78,7 +78,14 @@ public class ChampionList extends ActionBarActivity
 
                     break;
                 case 2:
-                    break;
+                    GameListFragment gameListFragment = new GameListFragment();
+                    Bundle b = new Bundle();
+                    b.putSerializable("SummonerId", currentUser.SummonerID);
+                    gameListFragment.setArguments(b);
+                    FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+                    fragTrans.replace(R.id.championListParent, gameListFragment);
+                    fragTrans.addToBackStack("");
+                    fragTrans.commit();
             }
         }
     }

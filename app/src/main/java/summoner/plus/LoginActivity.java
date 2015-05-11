@@ -88,11 +88,13 @@ public class LoginActivity extends ActionBarActivity
                 }
                 JSONObject userObject = new JSONObject(data);
                 int userId = userObject.getInt("UserID");
+                long SummonerID = userObject.getLong("SummonerID");
                 String summonerName = userObject.getString("Summonername");
                 if(userId > 0)
                 {
                     u.setUserID(userId);
                     u.setSummonername(summonerName);
+                    u.SummonerID = SummonerID;
                     return u;
                 }
                 Toast.makeText(getApplicationContext(), "Error occurred logging in.", Toast.LENGTH_LONG).show();
