@@ -34,7 +34,7 @@ public class GameArrayAdapter extends ArrayAdapter<Game>
         int numDeaths = games.get(key).Stats.NumDeaths;
         int champsKilled = games.get(key).Stats.ChampionsKilled;
         boolean isWin = games.get(key).Stats.Win;
-
+        double kda = (double) champsKilled / (double) numDeaths;
         String winString = isWin ? "Win" : "Lost";
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.game_row, parent, false);
@@ -42,9 +42,9 @@ public class GameArrayAdapter extends ArrayAdapter<Game>
         ((TextView) rowView.findViewById(R.id.gameMode)).setText(GameMode);
         ((TextView) rowView.findViewById(R.id.gameDate)).setText(GameDate.toString());
         ((TextView) rowView.findViewById(R.id.winLoss)).setText(winString);
-        ((TextView) rowView.findViewById(R.id.deaths)).setText( "Deaths: " + numDeaths + " Assists: "
-                + assists + " KDA: "  + (double) (champsKilled / numDeaths));
-        ((TextView) rowView.findViewById(R.id.goldEarned)).setText(goldEarned + "");
+        ((TextView) rowView.findViewById(R.id.deaths)).setText( "Deaths: " + numDeaths + "\nAssists: "
+                + assists + "\nKills" + champsKilled + "\nKDA: "  + kda);
+        ((TextView) rowView.findViewById(R.id.goldEarned)).setText("Gold Earned: " + goldEarned);
         return rowView;
     }
 }

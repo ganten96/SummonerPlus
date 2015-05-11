@@ -90,6 +90,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        getActivity().setTitle("Items");
         View view = inflater.inflate(R.layout.fragment_item, container, false);
         ArrayList<Item> items = new ArrayList<>();
         new DownloadItemData().execute();

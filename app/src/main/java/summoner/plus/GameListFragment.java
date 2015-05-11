@@ -83,7 +83,7 @@ public class GameListFragment extends Fragment implements AbsListView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
-
+        getActivity().setTitle("My Games");
         // Set the adapter
         gameList = (AbsListView) view.findViewById(R.id.game_list);
         summonerId = this.getArguments().getLong("SummonerId");

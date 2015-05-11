@@ -17,6 +17,7 @@
         android:textColor="#ffffffff"/>
 
     <TextView
+        android:paddingLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gameDate"
@@ -24,12 +25,14 @@
         android:textColor="#ffffffff"/>
 
     <TextView
+        android:paddingLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/winLoss"
         android:id="@+id/deaths"
         android:textColor="#ffffffff"/>
     <TextView
+        android:paddingLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/deaths"
