@@ -89,8 +89,6 @@ public class GameListFragment extends Fragment implements AbsListView.OnItemClic
         summonerId = this.getArguments().getLong("SummonerId");
         summonerGames = new ArrayList<>();
         new DownloadGameData().execute(summonerId);
-
-
         return view;
     }
 

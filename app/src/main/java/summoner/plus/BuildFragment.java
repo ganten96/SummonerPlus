@@ -1,8 +1,10 @@
 package summoner.plus;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import summoner.plus.dummy.DummyContent;
 
@@ -28,17 +47,16 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
 {
 
     private OnFragmentInteractionListener mListener;
-
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private AbsListView buildList;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private BuildArrayAdapter buildAdapter;
 
     // TODO: Rename and change types of parameters
     public static BuildFragment newInstance(String param1, String param2)
@@ -60,11 +78,8 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
 
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -72,13 +87,11 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_build, container, false);
+        buildList = (AbsListView) view.findViewById(R.id.build_list_view);
+        new DownloadItemBuilds().execute(ChampionList.currentUserId);
 
-        // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
-        // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+                // Set OnItemClickListener so we can be notified on item clicks
+        //buildList.setOnItemClickListener(this);
 
         return view;
     }
@@ -89,7 +102,7 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
         super.onAttach(activity);
         try
         {
-            mListener = (OnFragmentInteractionListener) activity;
+            //mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e)
         {
             throw new ClassCastException(activity.toString()
@@ -104,7 +117,6 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
         mListener = null;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
@@ -116,18 +128,59 @@ public class BuildFragment extends Fragment implements AbsListView.OnItemClickLi
         }
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-    public void setEmptyText(CharSequence emptyText)
+    private class DownloadItemBuilds extends AsyncTask<Integer, Void, ArrayList<Build>>
     {
-        View emptyView = mListView.getEmptyView();
-
-        if (emptyView instanceof TextView)
+        @Override
+        protected void onPostExecute(ArrayList<Build> result)
         {
-            ((TextView) emptyView).setText(emptyText);
+            buildAdapter = new BuildArrayAdapter(getActivity(), result);
+            buildList.setAdapter(buildAdapter);
+        }
+        @Override
+        protected ArrayList<Build> doInBackground(Integer... userID)
+        {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost("http://ganter.azurewebsites.net/Item/GetItemBuildsByUserID");
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("userID", ChampionList.currentUserId + ""));
+            ArrayList<Build> builds = new ArrayList<>();
+            try
+            {
+                post.setEntity(new UrlEncodedFormEntity(params));
+                HttpResponse response = client.execute(post);
+                InputStream content = response.getEntity().getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+
+                String data = "";
+                String s = "";
+                while((s = reader.readLine()) != null)
+                {
+                    data += s;
+                }
+                JSONArray buildData = new JSONArray(data);
+
+                for(int i = 0; i < buildData.length(); i++)
+                {
+                    JSONObject currBuild = buildData.getJSONObject(i);
+
+                    String buildName = currBuild.getString("BuildName");
+                    String itemString = currBuild.getString("ItemString");
+                    int buildId = currBuild.getInt("BuildID");
+
+                    Build b =  new Build();
+                    b.BuildID = buildId;
+                    b.BuildName = buildName;
+                    b.ItemString = itemString;
+
+                    builds.add(b);
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.v("Err downloading builds", "Error");
+                //Toast.makeText(getActivity().getApplicationContext(), "Unable to download Builds.", Toast.LENGTH_LONG);
+            }
+            return builds;
         }
     }
 

@@ -80,7 +80,11 @@ public class ChampionList extends ActionBarActivity
                     break;
                 case 1:
                     //item builds
-
+                    BuildFragment buildFragment = new BuildFragment();
+                    FragmentTransaction buildTrans = getFragmentManager().beginTransaction();
+                    buildTrans.replace(R.id.championListParent, buildFragment);
+                    buildTrans.addToBackStack("");
+                    buildTrans.commit();
                     break;
                 case 2:
                     GameListFragment gameListFragment = new GameListFragment();

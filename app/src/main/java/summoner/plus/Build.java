@@ -12,4 +12,5 @@ public class Build
     public int UserID;
     public String BuildName;
     public ArrayList<Integer> ItemIDs;
+    public String ItemString;
 }

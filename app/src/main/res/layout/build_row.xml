@@ -6,11 +6,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#ffffffff"
             android:id="@+id/build_name"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/build_name"
             android:paddingLeft="5dp"
+            android:textColor="#ffffffff"
             android:id="@+id/itemString"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_build"
+            android:text="Delete"
+            android:layout_alignParentRight="true"/>
 </RelativeLayout>
