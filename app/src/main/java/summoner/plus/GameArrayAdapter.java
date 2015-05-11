@@ -29,7 +29,6 @@ public class GameArrayAdapter extends ArrayAdapter<Game>
     {
         String GameMode = games.get(key).GameMode;
         Date GameDate = games.get(key).Date;
-        int champId = games.get(key).ChampionId;
         int assists = games.get(key).Stats.Assists;
         int goldEarned = games.get(key).Stats.GoldEarned;
         int numDeaths = games.get(key).Stats.NumDeaths;
@@ -44,8 +43,8 @@ public class GameArrayAdapter extends ArrayAdapter<Game>
         ((TextView) rowView.findViewById(R.id.gameDate)).setText(GameDate.toString());
         ((TextView) rowView.findViewById(R.id.winLoss)).setText(winString);
         ((TextView) rowView.findViewById(R.id.deaths)).setText( "Deaths: " + numDeaths + " Assists: "
-                + assists + " KDA: "  + champsKilled / numDeaths);
-        ((TextView) rowView.findViewById(R.id.goldEarned)).setText(goldEarned);
+                + assists + " KDA: "  + (double) (champsKilled / numDeaths));
+        ((TextView) rowView.findViewById(R.id.goldEarned)).setText(goldEarned + "");
         return rowView;
     }
 }

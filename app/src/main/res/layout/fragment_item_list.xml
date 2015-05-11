@@ -17,12 +17,14 @@
         android:hint="Build Name"
         android:layout_below="@id/item_list"
         android:layout_height="wrap_content"
+        android:textColorHint="#ffffffff"
         android:textColor="#ffffffff" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/saveItemBuild"
         android:text="Save"
+        android:textColor="#ffffffff"
         android:layout_alignBottom="@+id/buildName"
         android:layout_alignEnd="@+id/item_list"
         android:onClick="SaveItemBuild" />

@@ -89,8 +89,8 @@ public class GameListFragment extends Fragment implements AbsListView.OnItemClic
         summonerId = this.getArguments().getLong("SummonerId");
         summonerGames = new ArrayList<>();
         new DownloadGameData().execute(summonerId);
-        gameAdapter = new GameArrayAdapter(getActivity(), summonerGames);;
-        gameList.setAdapter(gameAdapter);
+
+
         return view;
     }
 
@@ -120,6 +120,8 @@ public class GameListFragment extends Fragment implements AbsListView.OnItemClic
         protected void onPostExecute(ArrayList<Game> games)
         {
             summonerGames = games;
+            gameAdapter = new GameArrayAdapter(getActivity(), summonerGames);
+            gameList.setAdapter(gameAdapter);
         }
 
         @Override
@@ -156,7 +158,7 @@ public class GameListFragment extends Fragment implements AbsListView.OnItemClic
                         String gameMode = gameObj.getString("GameMode");
                         long createDate = gameObj.getLong("CreateDate");
                         Date gameDate = new Date(createDate);
-                        JSONObject rawStats = gameObj.getJSONObject("RawStats");
+                        JSONObject rawStats = gameObj.getJSONObject("Stats");
                         int assists = rawStats.getInt("Assists");
                         int champsKilled = rawStats.getInt("ChampionsKilled");
                         int goldEarned = rawStats.getInt("GoldEarned");
